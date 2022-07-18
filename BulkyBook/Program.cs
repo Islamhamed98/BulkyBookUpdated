@@ -1,4 +1,4 @@
-using BulkyBook.Data;
+using BulkyBook.DataAccess.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +12,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
@@ -36,9 +36,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+//app.UseEndpoints(endpoint =>
+//{
+//    endpoint.MapControllerRoute(
+//            name: "default",
+//            pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+//        endpoint.MapRazorPages();
+//});
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
